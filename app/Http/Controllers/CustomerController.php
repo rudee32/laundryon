@@ -23,11 +23,19 @@ class CustomerController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
-            'address' => 'required|string'
+            'address' => 'required|string',
+            'telegram_username' => ['nullable', 'string', 'max:255', 'regex:/^[a-zA-Z0-9_]{5,32}$/']
         ]);
 
+        if ($request->telegram_username) {
+            $request->merge([
+                'telegram_username' => ltrim($request->telegram_username, '@')
+            ]);
+        }
+
         Customer::create($request->all());
-        return redirect()->route('customers.index')->with('success', 'Pelanggan berhasil ditambahkan');
+        return redirect()->route('customers.index')
+            ->with('success', 'Pelanggan berhasil ditambahkan');
     }
 
     public function edit(Customer $customer)
@@ -40,11 +48,12 @@ class CustomerController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
-            'address' => 'required|string'
+            'address' => 'required|string',
+            'telegram_id' => 'nullable|string'
         ]);
 
         $customer->update($request->all());
-        return redirect()->route('customers.index')->with('success', 'Pelanggan berhasil diperbarui');
+        return redirect()->route('customers.index')->with('success', 'Data pelanggan berhasil diperbarui');
     }
 
     public function destroy(Customer $customer)

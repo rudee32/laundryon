@@ -10,13 +10,18 @@ class Order extends Model
 {
     use HasFactory;
 
+    const STATUS_PENDING = 'pending';
+    const STATUS_PROCESSING = 'processing';
+    const STATUS_COMPLETED = 'completed';
+    const STATUS_CANCELLED = 'cancelled';
+
     protected static function boot()
     {
         parent::boot();
         
         static::creating(function ($order) {
-            // Generate order number format: LDY-YYYYMMDD-XXXX
             $order->order_number = 'LDY-' . date('Ymd') . '-' . strtoupper(Str::random(4));
+            $order->status = self::STATUS_PENDING; // Set default status
         });
     }
 
@@ -30,6 +35,16 @@ class Order extends Model
         'delivery_date',
         'order_number'
     ];
+
+    public static function getStatuses()
+    {
+        return [
+            self::STATUS_PENDING,
+            self::STATUS_PROCESSING,
+            self::STATUS_COMPLETED,
+            self::STATUS_CANCELLED,
+        ];
+    }
 
     public function customer()
     {

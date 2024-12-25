@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'timezone' => env('APP_TIMEZONE', 'UTC'),
+    'timezone' => 'Asia/Jakarta',
 
     /*
     |--------------------------------------------------------------------------
@@ -191,6 +191,7 @@ return [
         'Arr' => Illuminate\Support\Arr::class,
         // ... alias lainnya ...
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Log' => Illuminate\Support\Facades\Log::class,
     ],
 
 ];

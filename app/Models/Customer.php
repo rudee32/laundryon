@@ -12,7 +12,13 @@ class Customer extends Model
     protected $fillable = [
         'name',
         'phone',
-        'address'
+        'address',
+        'telegram_username',
+        'telegram_chat_id'
+    ];
+
+    protected $casts = [
+        'telegram_chat_id' => 'string'
     ];
 
     public function orders()
